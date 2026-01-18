@@ -107,3 +107,10 @@ db.books.updateOne(
 db.books.find(
     { title: "Advanced Mongodb" }
 );
+
+db.books.find().toArray();
+
+db.books.updateOne(
+    { title: "Mongodb basics " },
+    { $inc: { price: 20 } }
+);
