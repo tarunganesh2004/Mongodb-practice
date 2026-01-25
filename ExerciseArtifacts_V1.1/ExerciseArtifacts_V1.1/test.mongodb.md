@@ -1,4 +1,5 @@
-// @ts-nocheck
+```sh
+
 // basic regular expression syntax
 
 // /pattern/
@@ -185,3 +186,5 @@ db.prod.find(
 );
 
 //
+
+```
