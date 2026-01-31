@@ -1,3 +1,5 @@
+```sh
+
 // 1. display the passenger PNRNo,source,destination,
 // DateOfJourney of those passengers who are travelling in the month of May and at 9AM
 db.railways.aggregate([
@@ -148,3 +150,5 @@ db.railways.aggregate([
         }
     }
 ]);
+
+```
