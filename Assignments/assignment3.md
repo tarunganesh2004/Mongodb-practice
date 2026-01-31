@@ -1,3 +1,4 @@
+```sh
 $match → $project(concat / compute) → $group(distinct) → $project(clean)
 
 
@@ -18,7 +19,6 @@ db.orders1.aggregate([
     { $group: { _id: "$Name" } },
     { $project: { _id: 0, Name: "$_id" } }
 ]);
-
 
 
 
@@ -72,3 +72,5 @@ db.orders1.aggregate([
     }
 ]);
 // 5,6 these are sql to mongodb syntax conversion
+
+```

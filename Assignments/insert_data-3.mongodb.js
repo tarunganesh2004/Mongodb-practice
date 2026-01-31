@@ -1,7 +1,7 @@
 // use("assignment");
 
 
-db.orders.insertMany(
+db.orders1.insertMany(
     [
         {
             "_id": 1,
