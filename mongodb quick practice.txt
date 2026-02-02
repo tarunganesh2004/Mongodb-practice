@@ -1,0 +1,108 @@
+db.collection.find({
+$or:[{key1:"value1"},{key2:"value2"}]
+},{_id:0,prodname:1});\
+
+db.collection.find({
+"attribute":{$not:{"expression"}} // expression is "$lt":700
+});
+$ne:"value1"
+$eq: "value"
+$gt, $gte
+$lt
+db.collecion.find({"colors":{$in:["value1","value2",..]}});
+$nin
+
+$all operator(it should contain all atleast)
+$all:["value1","value2"]
+
+$size:"$items" -->size of array
+ex: if we want to find prodname & price whose colors array size is 4
+db.orders.find({"colors":{$size:4}},{"prodname":1,"price":1,_id:0})
+
+$elemMatch (The $elemMatch operator matches documents whose array field contains at least one element that matches all the given query conditions)
+{ <field>: { $elemMatch: { <query1>, <query2>, ... } } }
+
+$exists --> used to check whether a column is present or not
+db.orders.find({genre:{$exists:true}},{prodname:1,_id:0});
+
+$regex
+db.orders.find({genre:{$regex:/pattern/,$options:'<options'}}, options=i for case insensitive
+
+
+db.orders.updateOne({attribute1:"value1"},{$set:{attribute:"newValue"}})
+
+// upsert is used to tell to create a new document when updating(if the existsing value is not present)
+db.product_catalog.updateMany(
+     {"price" : {$gt : 80000}, "manufacturer" : "apple"},
+     {$set : {"prodname" : "iphone 7 plus"}},
+     {upsert : true}
+)
+
+ # update operators
+{$inc:{price:100}}
+{$rename:{field:newName1...}}
+{$set:{field1:value1}....}
+{$unset:{field1:"",...}}
+
+$each is used to add multiple elements using $push
+updation of array 
+db.orders.updateOne({
+prodid:10000
+},{$push:{colors:"white"}})
+
+$addToSet:{field1:value1,....}
+{$pop:{field:-1|1}} --> removes first(-1) or last(1) element of an array 
+{$pull:{field1:<value|condition>}} -->pull  Removes all instances of a value or values that match a specified condition from an existing array
+
+
+$pullAll:{field:[......]} --> 	Removes all instances of the specified values that match the listed elements exactly
+
+
+{$max:{fieldname:<value>}}--> updates fields with present value here
+while using $max operator if the field is not present , it creates and sets the value of the field to the defined value
+{$min:{fieldname:<value>}}
+
+
+$pop:{colors:1}--> used to remove element at last position
+
+deleteOne() and deleteMany()
+db.orders.deleteOne({price:500})
+
+Aggregations:
+db.product_catalog.distinct("manufacturer") // returns an array of distinct values 
+
+db.orders.aggregate([
+{$unwind:"$arraycolumn"},
+{$match:{"somecolumn:{$exists:true}}},
+{$match:{$or:[{col1:val1}, {col2:val2}]
+{$group:{_id:"$groupingcolumn", Sum:{$sum:1}, total:{$sum:"$profit},unique:{$addToSet:"$customerId"}},
+{$sort:{orders:1,total:-1}},
+{$limit:3},
+{$project:{_id:0,customerName:"$_id",otherColumn:1, countunique:{$size:"$unique"}},
+{$out:"requiredcolumn"},
+{$skip: 3},
+])
+
+
+// bulk write means writing full in one query (like deleteone & many in single,,update one and update many)
+db.prod.bulkWrite([
+{deleteOne:{filter:{prodid:20w}},
+{deleteOne:{filter:{manufacturer:"moto"}}}
+])
+
+// bulk write all
+db.prod.bulkWrite([
+{insertOne:{
+document:{
+col1:value1,
+col2:vlaue2,
+col3:{eklwpz:wmo}
+}
+
+}},
+{updateOne:{filter:{prodname:"isk"},
+	    update:{$set:{price:430}}
+},
+{deleteOne:{filter:{manufacturer:"honor"}}
+])
+
