@@ -16,8 +16,13 @@ db.students.find({
 // or 2nd co-curricular activity as Coding Club
 
 db.students.find({
-    $or: [{ "CoCurrAct":{ $size: 3 }  }, { "CoCurrAct.1": "Coding Club" }] // 2nd item means at 1st index 
-}, { _id: 0, StudentID: 1, Branch: 1, CoCurrAct: 1 });
+    $or: [{ "CoCurrAct": { $size: 3 } }, { "CoCurrAct.1": "Coding Club" }] // 2nd item means at 1st index 
+}, // here we can use $expr(it allows to use aggregation expressions in normal find)
+//     $or: [
+//         { $expr: { $eq: [{ $size: "$CoCurrAct" }, 3] } },
+//         {"CoCurrAct.1":"Coding Club"}
+// ]
+    { _id: 0, StudentID: 1, Branch: 1, CoCurrAct: 1 });
 
 // 3.display branch and average CGPA as "avgCGPA"(column alias) for branches other than "Civil Engineering" and "Computer Science" having
 // an average CGPA more than 7 , arrange the records in reverse alphabetical order of Branch
@@ -35,9 +40,9 @@ db.students.aggregate([
 
 db.students.aggregate([
     {
-        $group: {
+        $project: {
             _id: "$StudentID",
-            NumOfCoCurraAct: { $sum: { $size: "$CoCurrAct" } }
+            NumOfCoCurraAct: { $size: "$CoCurrAct" } 
         }
     },
     { $match: { NumOfCoCurraAct: { $gt: 2 } } },
