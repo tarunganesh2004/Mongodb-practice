@@ -1,7 +1,9 @@
 db.users.find().pretty()
 
+// show collections
 // project
-db.users.find(
+
+db.practice.find(
     {},
     {"courses.courseName":1,_id:0}
 )
@@ -171,3 +173,25 @@ db.users.updateOne(
 db.users.find({
     name: { $not: { $regex: "^T" } }
 })
+
+db.practice.find();
+
+// aggregations
+db.practice.aggregate([
+
+    { $project: { _id: "$userId", NumOfCoCur: { $size: "$coCurricular" } } },
+    {$match:{NumOfCoCur:{$gt:2}}},
+    { $sort: { _id: 1 } }
+    
+]);
+
+db.practice.aggregate([
+    {
+        $group: {
+            _id: {
+                userid: "$userId",
+                email:"$email"
+            },
+            uniqueCustomers:{$addToSet:"$customerName"}
+    }}
+])
